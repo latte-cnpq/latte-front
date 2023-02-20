@@ -1,0 +1,32 @@
+{
+  "name": "latte-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "dependencies": {
+    "@next/font": "13.1.6",
+    "eslint": "8.34.0",
+    "eslint-config-next": "13.1.6",
+    "next": "13.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-is": "^18.2.0",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  }
+}
