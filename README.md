@@ -4,7 +4,8 @@
 
 ## Sobre o projeto
 
-Este projeto foi desenvolvido para a disciplina de Desenvolvimento de Sistemas 1. O objetivo deste projeto é fornecer uma aplicação front-end para visualização de dados.
+Este projeto foi desenvolvido para a disciplina de Desenvolvimento de Sistemas 1.  
+O objetivo deste projeto é fornecer uma aplicação front-end para visualização de dados.
 
 ## Funcionalidades
 
