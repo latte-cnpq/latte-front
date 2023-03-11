@@ -14,6 +14,11 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     height: 100%;
   }
+
+  body {
+    background-color: ${({ theme }) => theme.colors.appBackground};
+    color: ${({ theme }) => theme.colors.highContrastText};
+  }
 `;
 
 export default GlobalStyle;
