@@ -7,7 +7,7 @@ const theme = {
     elementBackground: mauveDark.mauve3,
     hoveredElementBackground: mauveDark.mauve4,
     selectedEelementBackground: violetDark.violet5,
-    bordersAndSeparator: violetDark.violet6,
+    bordersAndSeparator: mauveDark.mauve6,
     bordersAndFocusRing: violetDark.violet7,
     hoveredElementBorder: mauveDark.mauve8,
     solidBackground: violetDark.violet9,
