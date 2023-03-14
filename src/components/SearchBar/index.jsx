@@ -1,23 +1,13 @@
-import { useState } from 'react';
 import SearchInput from '../SearchInput';
 import Select from '../Select';
 import { Container, OptionContainer } from './styles';
 
-export default function SearchBar() {
-  let data = [
-    { id: 1, name: 'Nome', default: false },
-    { id: 2, name: 'Acrônimo', default: false },
-    { id: 3, name: 'Todos', default: true },
-  ];
-
-  const [term, setTerm] = useState('');
-  const [field, setField] = useState(data.find((x) => x.default == true));
-
+export default function SearchBar({ data, field, setField, term, setTerm, onClick }) {
   return (
     <Container>
       <OptionContainer>
         Termo
-        <SearchInput value={term} onChange={(e) => setTerm(e.target.value)} />
+        <SearchInput value={term} onChange={(e) => setTerm(e.target.value)} onClick={onClick} />
       </OptionContainer>
       <OptionContainer>
         Campo

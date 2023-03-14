@@ -37,7 +37,6 @@ export default function InstitutesPage() {
       </SidebarContainer>
       <ContentContainer>
         <TopMenu />
-        <SearchBar />
         <HandleTable />
       </ContentContainer>
     </Container>
@@ -58,6 +57,10 @@ const HandleTable = () => {
   });
 
   const startIncluding = () => {
+    setValue({
+      name: '',
+      acronym: '',
+    });
     setIncluding(true);
   };
 
@@ -75,7 +78,7 @@ const HandleTable = () => {
       body: { ...value },
     })
       .then(() => {
-        reFetch();
+        reFetch(term, field.value);
         setIncluding(false);
       })
       .catch(() => {
@@ -90,7 +93,7 @@ const HandleTable = () => {
         url: `/Institute/${selected}`,
       })
         .then(() => {
-          reFetch();
+          reFetch(term, field.value);
         })
         .catch(() => {
           alert('Ocorreu um erro ao deletar o Instituto, tente novamente.');
@@ -98,22 +101,38 @@ const HandleTable = () => {
     }
   };
 
-  const reFetch = useCallback(() => {
-    fetchData({
-      method: 'get',
-      url: '/Institute/GetAll',
-    })
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
+  let filters = [
+    { id: 1, name: 'Nome', value: 'NAME', default: false },
+    { id: 2, name: 'Acrônimo', value: 'ACRONYM', default: false },
+    { id: 3, name: 'Todos', value: 'ALL', default: true },
+  ];
+
+  const [term, setTerm] = useState('');
+  const [field, setField] = useState(filters.find((x) => x.default == true));
+
+  const reFetch = useCallback(
+    (text, filter) => {
+      fetchData({
+        method: 'get',
+        url: `/Institute/ExecuteFilter?textSearch=${text}&field=${filter}`,
       })
-      .catch(() => {
-        alert('Ocorreu um erro ao consultar os Institutos, por favor, atualize a página');
-      });
-  }, [fetchData]);
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          alert('Ocorreu um erro ao consultar os Institutos, por favor, atualize a página');
+        });
+    },
+    [fetchData, field],
+  );
+
+  const makeSearch = () => {
+    reFetch(term, field.value);
+  };
 
   useEffect(() => {
-    reFetch();
+    reFetch(term, field.value);
   }, [reFetch]);
 
   const columns = [
@@ -123,6 +142,14 @@ const HandleTable = () => {
 
   return (
     <>
+      <SearchBar
+        data={filters}
+        field={field}
+        setField={setField}
+        term={term}
+        setTerm={setTerm}
+        onClick={makeSearch}
+      />
       {!loading && (
         <TableContainer>
           <Table
@@ -133,7 +160,7 @@ const HandleTable = () => {
             inserting={including}
             inputValue={value}
             onChange={setValue}
-            reFetch={reFetch}
+            reFetch={() => reFetch(term, field.value)}
           />
         </TableContainer>
       )}
