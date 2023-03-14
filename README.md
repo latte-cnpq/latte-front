@@ -16,6 +16,14 @@ O objetivo deste projeto é fornecer uma aplicação front-end para visualizaç�
 
 O projeto é dividido em três camadas principais: a camada de apresentação, a camada de serviço e a camada de dados. A camada de apresentação é responsável pela interface do usuário, a camada de serviço gerencia a lógica de negócios e a camada de dados lida com a persistência de dados.
 
+## Preparando o ambiente
+
+É necessário criar um arquivo .env na raiz do projeto, e inserir a seguinte linha (mudar a url de acordo com seu ambiente):
+
+```
+NEXT_PUBLIC_BACK_URL=http://localhost:8080
+```
+
 ## Como executar o projeto
 
 Para executar o projeto em um ambiente local, você precisará ter o NodeJS instalado em sua máquina.
