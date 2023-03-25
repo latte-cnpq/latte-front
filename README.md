@@ -18,11 +18,14 @@ O projeto é dividido em três camadas principais: a camada de apresentação, a
 
 ## Preparando o ambiente
 
-É necessário criar um arquivo .env na raiz do projeto, e inserir a seguinte linha (mudar a url de acordo com seu ambiente):
+É necessário criar um arquivo .env na raiz do projeto, e inserir as ENVs necessárias:
 
-```
-NEXT_PUBLIC_BACK_URL=http://localhost:8080
-```
+
+| Chave       |Valor|
+|------------|-----|
+| NEXT_PUBLIC_API_BASE_URL |http://localhost:8080|
+---
+
 
 ## Como executar o projeto
 
