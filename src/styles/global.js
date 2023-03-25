@@ -18,7 +18,29 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.colors.appBackground};
     color: ${({ theme }) => theme.colors.highContrastText};
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    user-select: none;
   }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: ${({ theme }) => theme.colors.subtleBackground};
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.colors.elementBackground};
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: ${({ theme }) => theme.colors.hoveredElementBackground};
+    }
 `;
 
 export default GlobalStyle;
