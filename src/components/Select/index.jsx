@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { SelectContainer, SelectButton, DropdownStyle, DropdownItem, ExpandIcon } from './styles';
+import { useEffect, useState } from 'react';
+import { DropdownItem, DropdownStyle, ExpandIcon, SelectButton, SelectContainer } from './styles';
 
-export default function Select({ label, data, selected, setSelected }) {
+export default function Select({ data, placeholder, selected, setSelected, defaultOption }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -12,27 +12,29 @@ export default function Select({ label, data, selected, setSelected }) {
     setOpen(false);
   };
 
-  const handleValueChange = (value) => {
+  const handleSelection = (value) => {
     setSelected(value);
-  };
-
-  const handleChange = (value) => {
-    handleValueChange(value);
     handleClose();
   };
+
+  useEffect(() => {
+    handleSelection(defaultOption);
+  }, []);
 
   return (
     <SelectContainer>
       <SelectButton onClick={() => handleOpen()}>
-        {selected ? selected.name : label}
+        {selected ? selected.label : placeholder}
         <ExpandIcon />
       </SelectButton>
       <DropdownStyle isVisible={open}>
-        {data.map((value, index) => (
-          <DropdownItem onClick={() => handleChange(value)} active={value === selected} key={index}>
-            {value.name}
-          </DropdownItem>
-        ))}
+        {data.map((value, index) => {
+          return (
+            <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
+              {value.label}
+            </DropdownItem>
+          );
+        })}
       </DropdownStyle>
     </SelectContainer>
   );

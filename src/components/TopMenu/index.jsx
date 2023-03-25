@@ -1,32 +1,29 @@
 import React from 'react';
 import Button from '../Button';
-import { Container, UserIcon, InstituteIcon, GraphIcon, ConfigIcon } from './styles';
+import { Container } from './styles';
+import { useRouter } from 'next/router';
 
-export default function TopMenu() {
-  const data = [
-    {
-      option: 'Pesquisadores',
-      icon: <UserIcon />,
-    },
-    {
-      option: 'Institutos',
-      icon: <InstituteIcon />,
-    },
-    {
-      option: 'Grafos',
-      icon: <GraphIcon />,
-    },
-    {
-      option: 'Configurações',
-      icon: <ConfigIcon />,
-    },
-  ];
+export default function TopMenu({ data }) {
+  const router = useRouter();
+
+  const handleRedirect = (href) => {
+    router.push(href);
+  };
+
+  const isActive = (pathname) => {
+    return router.pathname === pathname ? true : false;
+  };
 
   return (
     <Container>
       {data.map((elem, index) => {
         return (
-          <Button key={index} icon={elem.icon}>
+          <Button
+            key={index}
+            icon={elem.icon}
+            onClick={() => handleRedirect(elem.href)}
+            selected={isActive(elem.href)}
+          >
             {elem.option}
           </Button>
         );

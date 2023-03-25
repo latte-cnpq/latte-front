@@ -11,6 +11,10 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@emotion/css": "^11.10.6",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.11",
     "@next/font": "13.1.6",
     "@radix-ui/colors": "^0.1.8",
     "@svgr/webpack": "^6.5.1",
@@ -20,7 +24,9 @@
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-is": "^18.2.0",
+    "react-query": "^3.39.3",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
