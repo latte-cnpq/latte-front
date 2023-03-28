@@ -1,6 +1,6 @@
 import { toast } from 'react-hot-toast';
 
-export const successToast = (title, theme) => {
+export const customToast = (title, theme) => {
   toast(title, {
     duration: 1000,
     position: 'top-right',

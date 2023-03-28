@@ -1,12 +1,35 @@
 import { useRef } from 'react';
-import { BackgroundContainer, Buttons, Container, Header, TitleContainer } from './styles';
+import {
+  BackgroundContainer,
+  Buttons,
+  Container,
+  Content,
+  Header,
+  Options,
+  TitleContainer,
+} from './styles';
+
+import Button from '../Button';
+
 import CloseIcon from '@mui/icons-material/Close';
 import Separator from '../Separator';
-export default function Modal({ title, open, setOpen, children }) {
+export default function Modal({
+  title,
+  open,
+  setOpen,
+  handleCloseProp,
+  children,
+  options,
+  direction = 'column',
+}) {
   const background = useRef();
 
   const handleClose = () => {
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    } else if (handleCloseProp) {
+      handleCloseProp();
+    }
   };
 
   if (open) {
@@ -20,7 +43,26 @@ export default function Modal({ title, open, setOpen, children }) {
             </Buttons>
           </Header>
           <Separator />
-          {children}
+          <Content direction={direction}>
+            {children}
+            {options && (
+              <Options>
+                {options.map((option, index) => {
+                  return (
+                    <Button
+                      key={index}
+                      icon={option.icon}
+                      onClick={option.fn}
+                      selected={option.active}
+                      disabled={option.disabled || false}
+                    >
+                      {option.option}
+                    </Button>
+                  );
+                })}
+              </Options>
+            )}
+          </Content>
         </Container>
       </BackgroundContainer>
     );

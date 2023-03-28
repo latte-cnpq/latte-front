@@ -1,13 +1,20 @@
 import { useState } from 'react';
-import Separator from '../Separator';
-import { Cell, Container, HeaderRow, HeaderTitle, TBody } from './styles';
 import { Row } from '../Row';
+import Separator from '../Separator';
+import { Container, HeaderRow, HeaderTitle, TBody } from './styles';
 
-export default function Table({ columns, data, isFetching, rowOptions }) {
-  const [selected, setSelected] = useState();
+export default function Table({
+  columns,
+  data,
+  isFetching,
+  rowOptions,
+  expandedData,
+  expandable = false,
+}) {
+  const [selected, setSelected] = useState(false);
 
   const onClickHandler = (id) => {
-    setSelected(id);
+    selected == id ? setSelected() : setSelected(id);
   };
 
   return (
@@ -29,15 +36,11 @@ export default function Table({ columns, data, isFetching, rowOptions }) {
                   options={rowOptions}
                   id={element.id}
                   selected={selected == element.id ? true : false}
-                >
-                  {columns.map((column, index) => {
-                    return (
-                      <Cell key={index} onClick={() => {}}>
-                        {element[column.value]}
-                      </Cell>
-                    );
-                  })}
-                </Row>
+                  expandedData={expandedData}
+                  columns={columns}
+                  data={element}
+                  expandable={expandable}
+                />
               );
             })}
           </TBody>

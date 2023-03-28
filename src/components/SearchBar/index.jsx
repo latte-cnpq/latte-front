@@ -30,6 +30,7 @@ export default function SearchBar({ params, data, setData, onClick }) {
           return (
             <OptionContainer key={index}>
               <Select
+                label={''}
                 data={query.options}
                 placeholder="Selecionar"
                 selected={data[query.queryField]}
