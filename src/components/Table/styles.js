@@ -27,10 +27,6 @@ export const HeaderTitle = styled.p`
   font-weight: 700;
 `;
 
-export const Cell = styled.p`
-  flex: 1;
-`;
-
 export const TBody = styled.div`
   display: flex;
   flex-direction: column;

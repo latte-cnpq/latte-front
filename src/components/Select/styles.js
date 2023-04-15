@@ -1,13 +1,20 @@
 import styled, { css } from 'styled-components';
 import ExpandSvg from './expand.svg';
 
+export const Container = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+`;
 export const SelectContainer = styled.div`
   position: relative;
   min-width: 150px;
+  width: 100%;
   padding: 0;
   background-color: ${({ theme }) => theme.colors.elementBackground};
+
   height: 100%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const ExpandIcon = styled(ExpandSvg)`
@@ -23,16 +30,22 @@ export const SelectButton = styled.button`
   margin: 0px;
   height: 100%;
   width: 100%;
-  color: ${({ theme }) => theme.colors.highContrastText};
+  color: ${({ theme, disabled }) =>
+    disabled ? theme.colors.lowContrastText : theme.colors.highContrastText};
   font-size: 0.9em;
   padding: 2px 5px;
+
+  svg {
+    fill: ${({ theme, disabled }) =>
+      disabled ? theme.colors.lowContrastText : theme.colors.highContrastText};
+  }
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
 
-  :hover {
+  :enabled > :hover {
+    cursor: pointer;
     background-color: ${({ theme }) => theme.colors.hoveredElementBackground};
   }
 `;

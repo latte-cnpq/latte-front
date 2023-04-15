@@ -34,6 +34,18 @@ export const Container = styled.div`
   justify-content: flex-start;
 `;
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: ${({ direction }) => direction || 'column'};
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  gap: 10px;
+
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Header = styled.div`
   width: 100%;
   padding: 10px;
@@ -65,4 +77,12 @@ export const Buttons = styled.div`
       fill: ${({ theme }) => theme.colors.hoveredSolidBackground};
     }
   }
+`;
+
+export const Options = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
 `;

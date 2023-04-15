@@ -1,7 +1,23 @@
 import { useEffect, useState } from 'react';
-import { DropdownItem, DropdownStyle, ExpandIcon, SelectButton, SelectContainer } from './styles';
+import {
+  Container,
+  DropdownItem,
+  DropdownStyle,
+  ExpandIcon,
+  SelectButton,
+  SelectContainer,
+} from './styles';
 
-export default function Select({ data, placeholder, selected, setSelected, defaultOption }) {
+export default function Select({
+  mapper,
+  label,
+  data,
+  placeholder,
+  selected,
+  setSelected,
+  defaultOption,
+  disabled = false,
+}) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -18,24 +34,52 @@ export default function Select({ data, placeholder, selected, setSelected, defau
   };
 
   useEffect(() => {
-    handleSelection(defaultOption);
+    if (defaultOption) {
+      handleSelection(defaultOption);
+    }
   }, []);
 
+  if (mapper) {
+    return (
+      <Container>
+        {label}
+        <SelectContainer>
+          <SelectButton onClick={() => handleOpen()} disabled={disabled}>
+            {selected ? selected[mapper.label] : placeholder}
+            <ExpandIcon />
+          </SelectButton>
+          <DropdownStyle isVisible={open}>
+            {data.map((value, index) => {
+              return (
+                <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
+                  {value[mapper.label]}
+                </DropdownItem>
+              );
+            })}
+          </DropdownStyle>
+        </SelectContainer>
+      </Container>
+    );
+  }
+
   return (
-    <SelectContainer>
-      <SelectButton onClick={() => handleOpen()}>
-        {selected ? selected.label : placeholder}
-        <ExpandIcon />
-      </SelectButton>
-      <DropdownStyle isVisible={open}>
-        {data.map((value, index) => {
-          return (
-            <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
-              {value.label}
-            </DropdownItem>
-          );
-        })}
-      </DropdownStyle>
-    </SelectContainer>
+    <Container>
+      {label}
+      <SelectContainer>
+        <SelectButton onClick={() => handleOpen()} disabled={disabled}>
+          {selected ? selected.label : placeholder}
+          <ExpandIcon />
+        </SelectButton>
+        <DropdownStyle isVisible={open}>
+          {data.map((value, index) => {
+            return (
+              <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
+                {value.label}
+              </DropdownItem>
+            );
+          })}
+        </DropdownStyle>
+      </SelectContainer>
+    </Container>
   );
 }
