@@ -34,24 +34,22 @@ export const EditModal = ({ columns, data, modalTitle, open, setOpen, onSave }) 
 
   return (
     <Modal title={modalTitle} open={open} setOpen={setOpen} options={modalOptions}>
-      {data && (
-        <Container>
-          <Content>
-            {columns.map((element, index) => {
-              return (
-                <Input
-                  key={index}
-                  label={element.heading}
-                  value={inputStates[element.value]}
-                  onChange={(e) =>
-                    setInputStates({ ...inputStates, [element.value]: e.target.value })
-                  }
-                />
-              );
-            })}
-          </Content>
-        </Container>
-      )}
+      <Container>
+        <Content>
+          {columns.map((element, index) => {
+            return (
+              <Input
+                key={index}
+                label={element.heading}
+                value={inputStates[element.value]}
+                onChange={(e) =>
+                  setInputStates({ ...inputStates, [element.value]: e.target.value })
+                }
+              />
+            );
+          })}
+        </Content>
+      </Container>
     </Modal>
   );
 };

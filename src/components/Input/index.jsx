@@ -1,11 +1,20 @@
-import React from 'react';
-import { InputContainer, InputLabel, StyledInput } from './styles';
+import { forwardRef } from 'react';
+import { InputContainer, StyledInput } from './styles';
 
-export const Input = ({ type = 'text', label, value, onChange, readOnly = false }) => {
+const Input = forwardRef(({ readOnly, register, defaultValue, ...props }, ref) => {
   return (
     <InputContainer>
-      <InputLabel>{label}</InputLabel>
-      <StyledInput type={type} value={value} onChange={onChange} readOnly={readOnly} />
+      <StyledInput
+        ref={ref}
+        readOnly={readOnly}
+        defaultValue={defaultValue}
+        {...register}
+        {...props}
+      />
     </InputContainer>
   );
-};
+});
+
+Input.displayName = 'Input';
+
+export default Input;

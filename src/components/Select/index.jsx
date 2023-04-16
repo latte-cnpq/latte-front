@@ -1,84 +1,109 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Container,
   DropdownItem,
   DropdownStyle,
-  ExpandIcon,
   SelectButton,
   SelectContainer,
+  StyledButton,
+  StyledInput,
+  DropDownContent,
 } from './styles';
 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 export default function Select({
-  mapper,
+  id,
   label,
-  data,
-  placeholder,
-  selected,
-  setSelected,
-  defaultOption,
-  disabled = false,
+  options,
+  placeholder = 'Selecione uma opção',
+  value,
+  onChange,
+  allowClear = false,
+  allowSearch = false,
+  allowSort = false,
 }) {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [isAscending, setIsAscending] = useState(true);
 
   const handleOpen = () => {
-    setOpen((current) => !current);
+    setIsOpen((prevState) => !prevState);
   };
+  const handleClose = () => setIsOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSelection = (value) => {
-    setSelected(value);
+  const handleSelection = (selectedValue) => {
+    onChange(selectedValue);
     handleClose();
   };
 
-  useEffect(() => {
-    if (defaultOption) {
-      handleSelection(defaultOption);
-    }
-  }, []);
+  const handleClearSelection = () => {
+    onChange(null);
+    handleClose();
+  };
 
-  if (mapper) {
-    return (
-      <Container>
-        {label}
-        <SelectContainer>
-          <SelectButton onClick={() => handleOpen()} disabled={disabled}>
-            {selected ? selected[mapper.label] : placeholder}
-            <ExpandIcon />
-          </SelectButton>
-          <DropdownStyle isVisible={open}>
-            {data.map((value, index) => {
-              return (
-                <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
-                  {value[mapper.label]}
-                </DropdownItem>
-              );
-            })}
-          </DropdownStyle>
-        </SelectContainer>
-      </Container>
-    );
-  }
+  const handleSearch = (event) => setSearchText(event.target.value);
+  const handleSort = () => setIsAscending(!isAscending);
+
+  const sortedOptions = useMemo(
+    () =>
+      allowSort
+        ? [...options].sort((a, b) =>
+            isAscending ? a.label.localeCompare(b.label) : b.label.localeCompare(a.label),
+          )
+        : options,
+    [allowSort, isAscending, options],
+  );
+
+  const filteredOptions = useMemo(
+    () =>
+      allowSearch
+        ? sortedOptions.filter((option) =>
+            option.label.toLowerCase().includes(searchText.toLowerCase()),
+          )
+        : sortedOptions,
+    [allowSearch, sortedOptions, searchText],
+  );
 
   return (
     <Container>
-      {label}
+      {label && <label htmlFor={id}>{label}</label>}
       <SelectContainer>
-        <SelectButton onClick={() => handleOpen()} disabled={disabled}>
-          {selected ? selected.label : placeholder}
-          <ExpandIcon />
+        <SelectButton onClick={handleOpen} disabled={!options.length}>
+          {value?.label ?? placeholder}
+          <ExpandMoreIcon fontSize="small" />
         </SelectButton>
-        <DropdownStyle isVisible={open}>
-          {data.map((value, index) => {
-            return (
-              <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
-                {value.label}
+        {isOpen && (
+          <DropdownStyle visible={isOpen}>
+            {allowSearch && (
+              <StyledInput
+                type="text"
+                placeholder="Pesquisar"
+                value={searchText}
+                onChange={handleSearch}
+              />
+            )}
+            {allowSort && (
+              <StyledButton type="button" onClick={handleSort}>
+                Ordenar {isAscending ? 'A-Z' : 'Z-A'}
+              </StyledButton>
+            )}
+            {allowClear && value && (
+              <DropdownItem key="clear" onClick={handleClearSelection}>
+                Todos
               </DropdownItem>
-            );
-          })}
-        </DropdownStyle>
+            )}
+            <DropDownContent>
+              {filteredOptions.map((option) => {
+                return (
+                  <DropdownItem key={option.value} onClick={() => handleSelection(option)}>
+                    {option.label}
+                  </DropdownItem>
+                );
+              })}
+            </DropDownContent>
+          </DropdownStyle>
+        )}
       </SelectContainer>
     </Container>
   );

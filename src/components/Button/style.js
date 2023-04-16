@@ -12,8 +12,8 @@ export const StyledButton = styled.button`
 
   background: ${({ selected, theme }) =>
     selected ? theme.colors.selectedEelementBackground : theme.colors.elementBackground};
-
-  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: ${({ round }) => (round ? '15px' : '0px')};
   border: none;
   outline: none;
   text-decoration: none;

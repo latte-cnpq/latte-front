@@ -1,9 +1,9 @@
 import { Container, ContentContainer, SidebarContainer } from './styles';
 
-import SettingsIcon from '@mui/icons-material/Settings';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import SchoolIcon from '@mui/icons-material/School';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { Dashboard } from '../Dashboard';
 import Menu from '../Menu';

@@ -20,11 +20,13 @@ export const StyledInput = styled.input`
   outline: none;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.highContrastText};
-  padding: 10px 5px;
+  padding: 5px 10px;
   min-width: 250px;
+  font-size: 15px;
 
   :read-only {
     user-select: none;
     pointer-events: none;
+    color: ${({ theme }) => theme.colors.lowContrastText};
   }
 `;

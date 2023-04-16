@@ -3,18 +3,11 @@ import { Row } from '../Row';
 import Separator from '../Separator';
 import { Container, HeaderRow, HeaderTitle, TBody } from './styles';
 
-export default function Table({
-  columns,
-  data,
-  isFetching,
-  rowOptions,
-  expandedData,
-  expandable = false,
-}) {
-  const [selected, setSelected] = useState(false);
+export default function Table({ columns, data, rowOptions, expandedData, expandable = false }) {
+  const [selected, setSelected] = useState();
 
-  const onClickHandler = (id) => {
-    selected == id ? setSelected() : setSelected(id);
+  const onClickHandler = (index) => {
+    selected == index ? setSelected() : setSelected(index);
   };
 
   return (
@@ -22,29 +15,25 @@ export default function Table({
       <Container>
         <Separator />
         <HeaderRow>
-          {columns.map((column, index) => {
-            return <HeaderTitle key={index}>{column.heading}</HeaderTitle>;
-          })}
+          {columns.map((column, index) => (
+            <HeaderTitle key={index}>{column.heading}</HeaderTitle>
+          ))}
         </HeaderRow>
-        {!isFetching && (
-          <TBody>
-            {data.map((element, index) => {
-              return (
-                <Row
-                  key={index}
-                  onClick={() => onClickHandler(element.id)}
-                  options={rowOptions}
-                  id={element.id}
-                  selected={selected == element.id ? true : false}
-                  expandedData={expandedData}
-                  columns={columns}
-                  data={element}
-                  expandable={expandable}
-                />
-              );
-            })}
-          </TBody>
-        )}
+        <TBody>
+          {data.map((element, index) => (
+            <Row
+              key={index}
+              onClick={() => onClickHandler(index)}
+              options={rowOptions}
+              id={element.id}
+              selected={selected == index ? true : false}
+              expandedData={expandedData}
+              columns={columns}
+              data={element}
+              expandable={expandable}
+            />
+          ))}
+        </TBody>
       </Container>
     </>
   );

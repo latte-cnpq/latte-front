@@ -20,16 +20,21 @@ export const Row = ({
   expandedData,
   expandable,
 }) => {
+  function getNestedValue(obj, path) {
+    const keys = path.split('.');
+    let value = obj;
+    for (const key of keys) {
+      value = value[key];
+    }
+    return value;
+  }
+
   return (
     <Container>
       <RowContainer selected={selected}>
         <Content onClick={onClick}>
           {columns.map((column, index) => {
-            return (
-              <Cell key={index} onClick={() => {}}>
-                {data[column.value]}
-              </Cell>
-            );
+            return <Cell key={index}>{getNestedValue(data, column.value)}</Cell>;
           })}
         </Content>
         <Options>

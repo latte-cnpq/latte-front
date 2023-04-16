@@ -1,9 +1,9 @@
 import { axios } from './axios';
 
-const ENDPOINT = '/Researcher';
+const ENDPOINT = '/researcher';
 
 export const getResearchers = async () => {
-  const { data } = await axios.get(`${ENDPOINT}/GetAll`);
+  const { data } = await axios.get(`${ENDPOINT}`);
 
   return data;
 };
@@ -15,19 +15,18 @@ export const getResearcher = async (id) => {
 };
 
 export const searchResearcher = async (id) => {
-  const { data } = await axios.get(`${ENDPOINT}/SearchResearcher/${id}`);
-
+  const { data } = await axios.get(`${ENDPOINT}/cache/${id}`);
   return data;
 };
 
 export const deleteResearcher = async (id) => {
+  console.log(id);
   const response = await axios.delete(`${ENDPOINT}/${id}`);
-
   return response;
 };
 
 export const addResearcher = async (researcherIdNumber, instituteId) => {
-  const response = await axios.post(`${ENDPOINT}/Create`, {
+  const response = await axios.post(`${ENDPOINT}`, {
     researcherIdNumber,
     instituteId,
   });
@@ -35,9 +34,9 @@ export const addResearcher = async (researcherIdNumber, instituteId) => {
   return response;
 };
 
-export const executeFilterResearcher = async (searchData) => {
+export const advancedSearch = async (name, acronym, page, perPage = 10) => {
   const { data } = await axios.get(
-    `${ENDPOINT}/ExecuteFilter?textSearch=${searchData.textSearch}&field=${searchData.field.value}`,
+    `${ENDPOINT}/advancedsearch?name=${name}&acronym=${acronym}&page=${page}&perPage=${perPage}&ordination=id&direction=ASC`,
   );
 
   return data;
