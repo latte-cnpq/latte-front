@@ -1,26 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  gap: 10px;
-
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  gap: 10px;
-  padding: 10px;
-`;
-
 export const InputContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -32,14 +11,22 @@ export const InputLabel = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  height: 20px;
 `;
 
-export const Input = styled.input`
+export const StyledInput = styled.input`
   background-color: ${({ theme }) => theme.colors.elementBackground};
   border: none;
   outline: none;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.highContrastText};
-  padding: 10px 5px;
+  padding: 5px 10px;
   min-width: 250px;
+  font-size: 15px;
+
+  :read-only {
+    user-select: none;
+    pointer-events: none;
+    color: ${({ theme }) => theme.colors.lowContrastText};
+  }
 `;

@@ -1,6 +1,7 @@
+import ResearchersPage from '@/components/ResearchersPage';
 import Head from 'next/head';
 
-export default function Pesquisadores() {
+const Pesquisadores = () => {
   return (
     <>
       <Head>
@@ -9,8 +10,10 @@ export default function Pesquisadores() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <p>Pesquisadores</p>
+        <ResearchersPage />
       </main>
     </>
   );
-}
+};
+
+export default Pesquisadores;

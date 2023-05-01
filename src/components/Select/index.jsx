@@ -1,41 +1,110 @@
-import { useEffect, useState } from 'react';
-import { DropdownItem, DropdownStyle, ExpandIcon, SelectButton, SelectContainer } from './styles';
+import { useMemo, useState } from 'react';
+import {
+  Container,
+  DropdownItem,
+  DropdownStyle,
+  SelectButton,
+  SelectContainer,
+  StyledButton,
+  StyledInput,
+  DropDownContent,
+} from './styles';
 
-export default function Select({ data, placeholder, selected, setSelected, defaultOption }) {
-  const [open, setOpen] = useState(false);
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+export default function Select({
+  id,
+  label,
+  options,
+  placeholder = 'Selecione uma opção',
+  value,
+  onChange,
+  allowClear = false,
+  allowSearch = false,
+  allowSort = false,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [isAscending, setIsAscending] = useState(true);
 
   const handleOpen = () => {
-    setOpen((current) => !current);
+    setIsOpen((prevState) => !prevState);
   };
+  const handleClose = () => setIsOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSelection = (value) => {
-    setSelected(value);
+  const handleSelection = (selectedValue) => {
+    onChange(selectedValue);
     handleClose();
   };
 
-  useEffect(() => {
-    handleSelection(defaultOption);
-  }, []);
+  const handleClearSelection = () => {
+    onChange(null);
+    handleClose();
+  };
+
+  const handleSearch = (event) => setSearchText(event.target.value);
+  const handleSort = () => setIsAscending(!isAscending);
+
+  const sortedOptions = useMemo(
+    () =>
+      allowSort
+        ? [...options].sort((a, b) =>
+            isAscending ? a.label.localeCompare(b.label) : b.label.localeCompare(a.label),
+          )
+        : options,
+    [allowSort, isAscending, options],
+  );
+
+  const filteredOptions = useMemo(
+    () =>
+      allowSearch
+        ? sortedOptions.filter((option) =>
+            option.label.toLowerCase().includes(searchText.toLowerCase()),
+          )
+        : sortedOptions,
+    [allowSearch, sortedOptions, searchText],
+  );
 
   return (
-    <SelectContainer>
-      <SelectButton onClick={() => handleOpen()}>
-        {selected ? selected.label : placeholder}
-        <ExpandIcon />
-      </SelectButton>
-      <DropdownStyle isVisible={open}>
-        {data.map((value, index) => {
-          return (
-            <DropdownItem key={index} value={value} onClick={() => handleSelection(value)}>
-              {value.label}
-            </DropdownItem>
-          );
-        })}
-      </DropdownStyle>
-    </SelectContainer>
+    <Container>
+      {label && <label htmlFor={id}>{label}</label>}
+      <SelectContainer>
+        <SelectButton onClick={handleOpen} disabled={!options.length}>
+          {value?.label ?? placeholder}
+          <ExpandMoreIcon fontSize="small" />
+        </SelectButton>
+        {isOpen && (
+          <DropdownStyle visible={isOpen}>
+            {allowSearch && (
+              <StyledInput
+                type="text"
+                placeholder="Pesquisar"
+                value={searchText}
+                onChange={handleSearch}
+              />
+            )}
+            {allowSort && (
+              <StyledButton type="button" onClick={handleSort}>
+                Ordenar {isAscending ? 'A-Z' : 'Z-A'}
+              </StyledButton>
+            )}
+            {allowClear && value && (
+              <DropdownItem key="clear" onClick={handleClearSelection}>
+                Todos
+              </DropdownItem>
+            )}
+            <DropDownContent>
+              {filteredOptions.map((option) => {
+                return (
+                  <DropdownItem key={option.value} onClick={() => handleSelection(option)}>
+                    {option.label}
+                  </DropdownItem>
+                );
+              })}
+            </DropDownContent>
+          </DropdownStyle>
+        )}
+      </SelectContainer>
+    </Container>
   );
 }

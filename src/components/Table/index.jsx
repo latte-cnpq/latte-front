@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Separator from '../Separator';
-import { Cell, Container, HeaderRow, HeaderTitle, TBody } from './styles';
 import { Row } from '../Row';
+import Separator from '../Separator';
+import { Container, HeaderRow, HeaderTitle, TBody } from './styles';
 
-export default function Table({ columns, data, isFetching, rowOptions }) {
+export default function Table({ columns, data, rowOptions, expandedData, expandable = false }) {
   const [selected, setSelected] = useState();
 
-  const onClickHandler = (id) => {
-    setSelected(id);
+  const onClickHandler = (index) => {
+    selected == index ? setSelected() : setSelected(index);
   };
 
   return (
@@ -15,33 +15,25 @@ export default function Table({ columns, data, isFetching, rowOptions }) {
       <Container>
         <Separator />
         <HeaderRow>
-          {columns.map((column, index) => {
-            return <HeaderTitle key={index}>{column.heading}</HeaderTitle>;
-          })}
+          {columns.map((column, index) => (
+            <HeaderTitle key={index}>{column.heading}</HeaderTitle>
+          ))}
         </HeaderRow>
-        {!isFetching && (
-          <TBody>
-            {data.map((element, index) => {
-              return (
-                <Row
-                  key={index}
-                  onClick={() => onClickHandler(element.id)}
-                  options={rowOptions}
-                  id={element.id}
-                  selected={selected == element.id ? true : false}
-                >
-                  {columns.map((column, index) => {
-                    return (
-                      <Cell key={index} onClick={() => {}}>
-                        {element[column.value]}
-                      </Cell>
-                    );
-                  })}
-                </Row>
-              );
-            })}
-          </TBody>
-        )}
+        <TBody>
+          {data.map((element, index) => (
+            <Row
+              key={index}
+              onClick={() => onClickHandler(index)}
+              options={rowOptions}
+              id={element.id}
+              selected={selected == index ? true : false}
+              expandedData={expandedData}
+              columns={columns}
+              data={element}
+              expandable={expandable}
+            />
+          ))}
+        </TBody>
       </Container>
     </>
   );

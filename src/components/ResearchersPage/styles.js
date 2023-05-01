@@ -43,4 +43,5 @@ export const FormModalButtonContainer = styled.div`
   width: 100%;
   justify-content: flex-end;
   align-items: center;
+  gap: 10px;
 `;

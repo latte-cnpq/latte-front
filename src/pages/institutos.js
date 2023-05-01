@@ -1,7 +1,7 @@
-import { InstitutesPage } from '@/components/InstitutesPage';
+import InstitutesPage from '@/components/InstitutesPage';
 import Head from 'next/head';
 
-export default function Institutos() {
+const Institutos = () => {
   return (
     <>
       <Head>
@@ -14,4 +14,6 @@ export default function Institutos() {
       </main>
     </>
   );
-}
+};
+
+export default Institutos;

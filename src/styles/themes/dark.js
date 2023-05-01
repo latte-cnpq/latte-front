@@ -1,4 +1,4 @@
-import { violetDark, mauveDark, grassDark } from '@radix-ui/colors';
+import { violetDark, mauveDark, grassDark, blackA, tomatoDark, orangeDark } from '@radix-ui/colors';
 
 const theme = {
   colors: {
@@ -15,6 +15,9 @@ const theme = {
     lowContrastText: mauveDark.mauve11,
     highContrastText: mauveDark.mauve12,
     success: grassDark.grass9,
+    error: tomatoDark.tomato9,
+    warning: orangeDark.orange9,
+    overlay: blackA.blackA9,
   },
 };
 

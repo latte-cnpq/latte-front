@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 1px;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.bordersAndSeparator};
+  padding: 10px;
+  gap: 10px;
 `;

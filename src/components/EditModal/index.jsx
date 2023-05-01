@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import Button from '../Button';
+import { Input } from '../Input';
 import Modal from '../Modal';
-import { Container, Content, Input, InputContainer, InputLabel, Options } from './styles';
+import { Container, Content } from './styles';
+import SaveIcon from '@mui/icons-material/Save';
 
 export const EditModal = ({ columns, data, modalTitle, open, setOpen, onSave }) => {
   const [inputStates, setInputStates] = useState(
@@ -22,30 +23,33 @@ export const EditModal = ({ columns, data, modalTitle, open, setOpen, onSave }) 
     setOpen(false);
   };
 
+  const modalOptions = [
+    {
+      option: 'Salvar',
+      icon: <SaveIcon fontSize="small" />,
+      fn: handleSave,
+      active: false,
+    },
+  ];
+
   return (
-    <Modal title={modalTitle} open={open} setOpen={setOpen}>
-      {data && (
-        <Container>
-          <Content>
-            {columns.map((element, index) => {
-              return (
-                <InputContainer key={index}>
-                  <InputLabel>{element.heading}</InputLabel>
-                  <Input
-                    value={inputStates[element.value]}
-                    onChange={(e) =>
-                      setInputStates({ ...inputStates, [element.value]: e.target.value })
-                    }
-                  />
-                </InputContainer>
-              );
-            })}
-          </Content>
-          <Options>
-            <Button onClick={handleSave}>Salvar</Button>
-          </Options>
-        </Container>
-      )}
+    <Modal title={modalTitle} open={open} setOpen={setOpen} options={modalOptions}>
+      <Container>
+        <Content>
+          {columns.map((element, index) => {
+            return (
+              <Input
+                key={index}
+                label={element.heading}
+                value={inputStates[element.value]}
+                onChange={(e) =>
+                  setInputStates({ ...inputStates, [element.value]: e.target.value })
+                }
+              />
+            );
+          })}
+        </Content>
+      </Container>
     </Modal>
   );
 };

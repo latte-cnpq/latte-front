@@ -1,45 +1,62 @@
-import styled, { css } from 'styled-components';
-import ExpandSvg from './expand.svg';
+import styled, { css, keyframes } from 'styled-components';
+
+export const Container = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 15px;
+  padding-left: 43px;
+`;
 
 export const SelectContainer = styled.div`
   position: relative;
-  min-width: 150px;
-  padding: 0;
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.elementBackground};
-  height: 100%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-export const ExpandIcon = styled(ExpandSvg)`
-  width: 25px;
-  height: auto;
+  padding: 5px 10px;
+  gap: 10px;
 `;
 
 export const SelectButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   background: none;
   border: none;
   text-decoration: none;
   outline: none;
-  margin: 0px;
-  height: 100%;
-  width: 100%;
-  color: ${({ theme }) => theme.colors.highContrastText};
-  font-size: 0.9em;
-  padding: 2px 5px;
+  color: ${({ theme, disabled }) =>
+    disabled ? theme.colors.lowContrastText : theme.colors.highContrastText};
+  font-size: 15px;
+  gap: 10px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
+  svg {
+    fill: ${({ theme, disabled }) =>
+      disabled ? theme.colors.lowContrastText : theme.colors.highContrastText};
+  }
 
-  :hover {
+  :enabled > :hover {
+    cursor: pointer;
     background-color: ${({ theme }) => theme.colors.hoveredElementBackground};
+  }
+`;
+
+const expand = keyframes`
+  from{
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to{
+    opacity: 1;
+    transform: scaleY(1);
   }
 `;
 
 export const DropdownStyle = styled.div`
   position: absolute;
-  top: 40px;
+  top: 30px;
   left: 0;
   width: 100%;
   padding: 0.4rem;
@@ -48,16 +65,14 @@ export const DropdownStyle = styled.div`
   border-radius: 5px;
   background: ${({ theme }) => theme.colors.elementBackground};
   border: 1.5px solid ${({ theme }) => theme.colors.bordersAndSeparator};
+  z-index: 12;
 
-  transition: max-height 0.2s ease;
-  overflow: auto;
-
-  ${({ isVisible }) =>
-    isVisible !== true &&
-    css`
-      max-height: 40px;
-      visibility: hidden;
-    `}
+  transform-origin: top center;
+  opacity: 0;
+  transform: scaleY(0);
+  animation: ${expand} 200ms ease-in-out forwards;
+  transition: max-height 250ms ease;
+  gap: 10px;
 `;
 
 export const DropdownItem = styled.div`
@@ -90,4 +105,33 @@ export const DropdownItem = styled.div`
         background-color: ${({ theme }) => theme.colors.selectedEelementBackground};
       }
     `}
+`;
+
+export const StyledInput = styled.input`
+  text-decoration: none;
+  border: 1px solid ${({ theme }) => theme.colors.bordersAndSeparator};
+  outline: none;
+  padding: 5px 10px;
+  background: none;
+  color: ${({ theme }) => theme.colors.highContrastText};
+  font-size: 15px;
+
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.lowContrastText};
+  }
+`;
+
+export const StyledButton = styled.button`
+  text-decoration: none;
+  border: 1px solid ${({ theme }) => theme.colors.bordersAndSeparator};
+  outline: none;
+  padding: 5px 10px;
+  background: none;
+  color: ${({ theme }) => theme.colors.highContrastText};
+  cursor: pointer;
+`;
+
+export const DropDownContent = styled.div`
+  overflow: auto;
+  max-height: 200px;
 `;

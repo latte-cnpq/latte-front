@@ -1,4 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const appear = keyframes`
+  from{
+    opacity: 0;
+    
+  }to{
+    opacity: 1;
+    
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -11,6 +21,9 @@ export const Container = styled.div`
 
   background-color: ${({ theme }) => theme.colors.elementBackground};
   border-radius: 10px;
+  opacity: 0;
+
+  animation: ${appear} 250ms ease-in-out forwards;
 `;
 
 export const HeaderRow = styled.div`
@@ -25,10 +38,6 @@ export const HeaderRow = styled.div`
 export const HeaderTitle = styled.p`
   flex: 1;
   font-weight: 700;
-`;
-
-export const Cell = styled.p`
-  flex: 1;
 `;
 
 export const TBody = styled.div`

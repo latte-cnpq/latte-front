@@ -1,4 +1,12 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const appear = keyframes`
+  from{
+    opacity: 0;
+  }to{
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -6,6 +14,9 @@ export const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 100%;
+
+  opacity: 0;
+  animation: ${appear} 250ms ease-in-out forwards;
 `;
 
 export const SidebarContainer = styled.div`
@@ -25,4 +36,10 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 10px;
+
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 `;

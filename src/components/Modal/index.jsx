@@ -1,30 +1,35 @@
 import { useRef } from 'react';
-import { BackgroundContainer, Buttons, Container, Header, TitleContainer } from './styles';
+import { BackgroundContainer, Buttons, Container, Content, Header, TitleContainer } from './styles';
+
 import CloseIcon from '@mui/icons-material/Close';
 import Separator from '../Separator';
-export default function Modal({ title, open, setOpen, children }) {
+export default function Modal({ title, open, setOpen, children, direction, handleCloseProp }) {
   const background = useRef();
 
   const handleClose = () => {
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    } else if (handleCloseProp) {
+      handleCloseProp();
+    }
   };
 
-  if (open) {
-    return (
-      <BackgroundContainer ref={background}>
-        <Container>
-          <Header>
-            <TitleContainer>{title}</TitleContainer>
-            <Buttons>
-              <CloseIcon fontSize="small" onClick={handleClose} />
-            </Buttons>
-          </Header>
-          <Separator />
-          {children}
-        </Container>
-      </BackgroundContainer>
-    );
-  }
-
-  return;
+  return (
+    <>
+      {open && (
+        <BackgroundContainer ref={background}>
+          <Container>
+            <Header>
+              <TitleContainer>{title}</TitleContainer>
+              <Buttons>
+                <CloseIcon fontSize="small" onClick={handleClose} />
+              </Buttons>
+            </Header>
+            <Separator />
+            <Content direction={direction}>{children}</Content>
+          </Container>
+        </BackgroundContainer>
+      )}
+    </>
+  );
 }
