@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -16,4 +17,8 @@ export const OptionContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
+`;
+
+export const Label = styled.div`
+  min-width: 100px;
 `;

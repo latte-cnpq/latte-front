@@ -38,16 +38,17 @@ export const Row = ({
           })}
         </Content>
         <Options>
-          {options.map((option, index) => [
-            <Option
-              key={index}
-              onClick={() => {
-                option.fn(id);
-              }}
-            >
-              {option.icon}
-            </Option>,
-          ])}
+          {options &&
+            options.map((option, index) => [
+              <Option
+                key={index}
+                onClick={() => {
+                  option.fn(id);
+                }}
+              >
+                {option.icon}
+              </Option>,
+            ])}
         </Options>
       </RowContainer>
       {expandable && (

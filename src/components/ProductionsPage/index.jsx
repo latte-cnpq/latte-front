@@ -3,71 +3,71 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Container } from './styles';
 
-import Pagination from '../Pagination';
-import SearchBar from '../SearchBar';
 import Table from '../Table';
 
-import * as researcherApi from '@/api/researcher';
+import * as productionApi from '@/api/production';
+import SearchBar from '../SearchBar';
 
 const ProductionsPage = () => {
+  const { data, isFetching, refetch } = useQuery('getProductions', productionApi.getProductions);
   const [searchData, setSearchData] = useState({ name: '', acronym: '' });
-
-  const [selectedPage, setSelectedPage] = useState(0);
-
-  const { data, isFetching, refetch } = useQuery('getResearchers', () =>
-    researcherApi.advancedSearch(searchData.name, searchData.acronym, selectedPage, 15),
-  );
 
   useEffect(() => {
     refetch();
-  }, [selectedPage, refetch]);
+  }, [refetch]);
 
   const handleSearch = () => {
     refetch();
   };
 
-  const tableColumns = [
-    { heading: 'Nome', value: 'name' },
-    { heading: 'Instituto', value: 'institute.acronym' },
-  ];
-
-  const expandedData = [{ title: 'Resumo', content: 'resume' }];
-
   const searchParams = [
     {
-      queryField: 'name',
-      placeholder: 'Nome',
+      queryField: 'title',
+      placeholder: 'Título',
       type: 'input',
     },
     {
-      queryField: 'acronym',
+      queryField: 'startDate',
+      placeholder: 'Ano Início',
+      type: 'input',
+    },
+    {
+      queryField: 'endDate',
+      placeholder: 'Ano Fim',
+      type: 'input',
+    },
+    {
+      queryField: 'institute',
       placeholder: 'Instituto',
       type: 'input',
     },
+    {
+      queryField: 'researcher',
+      placeholder: 'Pesquisador',
+      type: 'input',
+    },
+  ];
+
+  const tableColumns = [
+    { heading: 'Tipo', value: 'type' },
+    { heading: 'Detalhamento', value: 'details' },
   ];
 
   return (
     <>
       <Container>
         <SearchBar params={searchParams} data={[]} setData={setSearchData} onClick={handleSearch} />
-        {data && (
-          <Table
-            columns={tableColumns}
-            data={data.content}
-            isFetching={isFetching}
-            expandedData={expandedData}
-            expandable={true}
-          />
-        )}
 
-        {data && (
+        {data && <Table columns={tableColumns} data={data} isFetching={isFetching} />}
+
+        {/* {data && (
           <Pagination
             pages={data.totalPages}
             selected={selectedPage}
             setSelected={setSelectedPage}
             refetch={refetch}
           />
-        )}
+        )} */}
       </Container>
     </>
   );

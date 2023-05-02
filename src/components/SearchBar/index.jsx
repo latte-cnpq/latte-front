@@ -1,6 +1,6 @@
 import Button from '../Button';
 import Input from '../Input';
-import { Container, OptionContainer } from './styles';
+import { Container, OptionContainer, Label } from './styles';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchBar({ params, data, setData, onClick }) {
@@ -14,7 +14,7 @@ export default function SearchBar({ params, data, setData, onClick }) {
         if (query.type == 'input') {
           return (
             <OptionContainer key={index}>
-              {query.placeholder}
+              <Label>{query.placeholder}</Label>
               <Input
                 value={data[query.queryField]}
                 onChange={(e) => handleInputChange(e, query.queryField)}
