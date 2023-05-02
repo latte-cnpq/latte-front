@@ -4,6 +4,7 @@ import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import SchoolIcon from '@mui/icons-material/School';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import { Dashboard } from '../Dashboard';
 import Menu from '../Menu';
@@ -29,6 +30,14 @@ export const MainWrapper = ({ children }) => {
         router.push('/institutos');
       },
       active: router.pathname === '/institutos' ? true : false,
+    },
+    {
+      option: 'Produções',
+      icon: <ArticleIcon fontSize="small" />,
+      fn: () => {
+        router.push('/producoes');
+      },
+      active: router.pathname === '/producoes' ? true : false,
     },
     {
       option: 'Grafos',
