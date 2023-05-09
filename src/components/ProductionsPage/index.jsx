@@ -28,7 +28,7 @@ const ProductionsPage = () => {
       searchData.institute,
       searchData.researcher,
       selectedPage,
-      10,
+      15,
     ),
   );
 
