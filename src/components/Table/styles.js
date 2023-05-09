@@ -47,4 +47,5 @@ export const TBody = styled.div`
   padding: 0px 0px 10px;
   gap: 5px;
   width: 100%;
+  overflow: auto;
 `;

@@ -38,7 +38,7 @@ const ResearchersPage = () => {
   const { openConfirmationDialog } = useConfirmationDialog();
 
   const { data, isFetching, refetch } = useQuery('getResearchers', () =>
-    researcherApi.advancedSearch(searchData.name, searchData.acronym, selectedPage, 15),
+    researcherApi.advancedSearch(searchData.name, searchData.acronym, selectedPage, 25),
   );
 
   useEffect(() => {

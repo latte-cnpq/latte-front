@@ -17,6 +17,7 @@ export const Container = styled.div`
 
   opacity: 0;
   animation: ${appear} 250ms ease-in-out forwards;
+  overflow: hidden;
 `;
 
 export const SidebarContainer = styled.div`
@@ -31,11 +32,20 @@ export const SidebarContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+export const PageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  overflow: auto;
   padding: 10px;
+  padding-bottom: 100px;
 
   main {
     display: flex;

@@ -28,9 +28,26 @@ export const getProduction = async (id) => {
   return data;
 };
 
-export const advancedSearch = async (name, acronym, page, perPage = 10) => {
+export const advancedSearch = async (
+  title,
+  startDate,
+  endDate,
+  institute,
+  researcher,
+  page,
+  perPage = 10,
+) => {
   const { data } = await axios.get(
-    `${ENDPOINT}/advancedsearch?name=${name}&acronym=${acronym}&page=${page}&perPage=${perPage}&ordination=id&direction=ASC`,
+    `/production/advancedsearch` +
+      `?title=${title}` +
+      `&startYear=${startDate}` +
+      `&endYear=${endDate}` +
+      `&researcherName=${researcher}` +
+      `&instituteName=${institute}` +
+      `&type=ALL&page=${page}` +
+      `&perPage=${perPage}` +
+      `&ordination=id` +
+      `&direction=ASC`,
   );
 
   return data;

@@ -6,6 +6,6 @@ export const Container = styled.div`
   flex-direction: row;
   justify-content: ${({ justify }) => justify || 'flex-start'};
   align-items: center;
-  padding: 0px;
+  padding: 10px;
   gap: 10px;
 `;

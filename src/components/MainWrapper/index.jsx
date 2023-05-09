@@ -1,4 +1,4 @@
-import { Container, ContentContainer, SidebarContainer } from './styles';
+import { Container, ContentContainer, SidebarContainer, PageContainer } from './styles';
 
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
@@ -64,7 +64,7 @@ export const MainWrapper = ({ children }) => {
       </SidebarContainer>
       <ContentContainer>
         <Menu data={topMenuData} />
-        {children}
+        <PageContainer>{children}</PageContainer>
       </ContentContainer>
     </Container>
   );

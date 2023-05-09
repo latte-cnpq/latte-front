@@ -7,14 +7,38 @@ import Table from '../Table';
 
 import * as productionApi from '@/api/production';
 import SearchBar from '../SearchBar';
+import Pagination from '../Pagination';
 
 const ProductionsPage = () => {
-  const { data, isFetching, refetch } = useQuery('getProductions', productionApi.getProductions);
-  const [searchData, setSearchData] = useState({ name: '', acronym: '' });
+  const [selectedPage, setSelectedPage] = useState(0);
+
+  const [searchData, setSearchData] = useState({
+    title: '',
+    startDate: '',
+    endDate: '',
+    institute: '',
+    researcher: '',
+  });
+
+  const { data, isFetching, refetch } = useQuery('getProductions', () =>
+    productionApi.advancedSearch(
+      searchData.title,
+      searchData.startDate,
+      searchData.endDate,
+      searchData.institute,
+      searchData.researcher,
+      selectedPage,
+      10,
+    ),
+  );
 
   useEffect(() => {
     refetch();
   }, [refetch]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleSearch = () => {
     refetch();
@@ -54,22 +78,25 @@ const ProductionsPage = () => {
   ];
 
   return (
-    <>
-      <Container>
-        <SearchBar params={searchParams} data={[]} setData={setSearchData} onClick={handleSearch} />
+    <Container>
+      <SearchBar
+        params={searchParams}
+        data={searchData}
+        setData={setSearchData}
+        onClick={handleSearch}
+      />
 
-        {data && <Table columns={tableColumns} data={data} isFetching={isFetching} />}
+      {data && <Table columns={tableColumns} data={data.productions} isFetching={isFetching} />}
 
-        {/* {data && (
-          <Pagination
-            pages={data.totalPages}
-            selected={selectedPage}
-            setSelected={setSelectedPage}
-            refetch={refetch}
-          />
-        )} */}
-      </Container>
-    </>
+      {data && (
+        <Pagination
+          pages={data.totalPage}
+          selected={selectedPage}
+          setSelected={setSelectedPage}
+          refetch={refetch}
+        />
+      )}
+    </Container>
   );
 };
 
