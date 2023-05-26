@@ -132,7 +132,6 @@ const ResearchersPage = () => {
             pages={data.totalPages}
             selected={selectedPage}
             setSelected={setSelectedPage}
-            refetch={refetch}
           />
         )}
         <Menu data={menuData} justify={'flex-end'} />

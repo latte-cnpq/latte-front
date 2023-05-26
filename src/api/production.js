@@ -44,7 +44,8 @@ export const advancedSearch = async (
       `&endYear=${endDate}` +
       `&researcherName=${researcher}` +
       `&instituteName=${institute}` +
-      `&type=ALL&page=${page}` +
+      `&type=ALL` +
+      `&page=${page}` +
       `&perPage=${perPage}` +
       `&ordination=id` +
       `&direction=ASC`,

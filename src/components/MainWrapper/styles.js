@@ -23,7 +23,7 @@ export const Container = styled.div`
 export const SidebarContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.subtleBackground};
   height: 100%;
-  width: 400px;
+  width: 600px;
 
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import LogoSvg from './media/logo.svg';
+import LogoSvg from '../../../public/logo.svg';
 
 export const Container = styled.div`
   width: 100%;
@@ -38,6 +38,8 @@ export const Logo = styled(LogoSvg)`
 export const GhostContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.elementBackground};
   width: 100%;
-  min-height: 200px;
+  padding: 10px;
   border-radius: 10px;
+
+  display: flex;
 `;

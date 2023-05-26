@@ -1,7 +1,21 @@
 import Head from 'next/head';
 import ProductionsPage from '@/components/ProductionsPage';
 
-export default function Producoes() {
+export const getServerSideProps = async (context) => {
+  const year = context.query.year || '';
+  const researcher = context.query.researcher || '';
+  const institute = context.query.institute || '';
+
+  return {
+    props: {
+      year,
+      researcher,
+      institute,
+    },
+  };
+};
+
+export default function Producoes({ year, researcher, institute }) {
   return (
     <>
       <Head>
@@ -10,7 +24,7 @@ export default function Producoes() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <ProductionsPage />
+        <ProductionsPage year={year} researcher={researcher} institute={institute} />
       </main>
     </>
   );

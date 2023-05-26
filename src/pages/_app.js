@@ -7,8 +7,27 @@ import queryCLient from '@/api/queryClient';
 import { Toaster } from 'react-hot-toast';
 import { ConfirmationDialogProvider } from '@/context/ConfirmationDialogContext';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
-
+import { useRouter } from 'next/router';
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+
+  if (router.pathname == '/') {
+    return (
+      <>
+        <QueryClientProvider client={queryCLient}>
+          <ThemeProvider theme={theme}>
+            <ConfirmationDialogProvider>
+              <GlobalStyle />
+              <Toaster />
+              <ConfirmationDialog />
+              <Component {...pageProps} />
+            </ConfirmationDialogProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryCLient}>
       <ThemeProvider theme={theme}>
