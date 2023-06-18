@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['react-cytoscapejs'],
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({

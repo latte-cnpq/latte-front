@@ -101,3 +101,19 @@ export const PlotMenuColumn = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const ColorField = styled.div`
+  border: 1px solid ${({ theme }) => theme.colors.highContrastText};
+  font-size: 15px;
+  padding: 5px;
+  height: 32px;
+  width: 200px;
+
+  ::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: ${({ color }) => `${color}`};
+  }
+`;

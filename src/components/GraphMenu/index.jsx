@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   BottomMenu,
+  ColorField,
   Container,
   ExpandIcon,
   ExpansibleLabel,
@@ -16,13 +17,11 @@ import GraphMenuSelect from '../GraphMenuSelect';
 
 import * as instituteApi from '@/api/institute';
 import * as researcherApi from '@/api/researcher';
-import ColorSelect from '../ColorSelect';
 
-const GraphMenu = () => {
+const GraphMenu = ({searchData, setSearchData, colors}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [institutes, setInstitutes] = useState([]);
-  const [selectedInstitute, setSelectedInstitute] = useState(null);
 
   const fetchInstitutes = async () => {
     const data = await instituteApi.getInstitutes();
@@ -35,11 +34,10 @@ const GraphMenu = () => {
   };
 
   const handleSelectInstitute = (option) => {
-    setSelectedInstitute(option);
+    setSearchData(prevData => ({...prevData, institute: option}))
   };
 
   const [researchers, setResearchers] = useState([]);
-  const [selectedResearcher, setSelectedResearcher] = useState(null);
 
   const fetchResearchers = async () => {
     const data = await researcherApi.getResearchers();
@@ -52,23 +50,22 @@ const GraphMenu = () => {
   };
 
   const handleSelectResearcher = (option) => {
-    setSelectedResearcher(option);
+    setSearchData(prevData => ({...prevData, researcher: option}))
   };
 
   const productions = [
     {
-      value: 'books',
+      value: 'BOOK',
       label: 'Livros',
     },
     {
-      value: 'articles',
+      value: 'ARTICLE',
       label: 'Artigos',
     },
   ];
-  const [selectedProduction, setSelectedProduction] = useState(null);
 
   const handleSelectProduction = (option) => {
-    setSelectedProduction(option);
+    setSearchData(prevData => ({...prevData, production: option}))
   };
 
   const vertice = [
@@ -81,24 +78,9 @@ const GraphMenu = () => {
       label: 'Instituto',
     },
   ];
-  const [selectedVertice, setSelectedVertice] = useState(null);
 
   const handleSelectVertice = (option) => {
-    setSelectedVertice(option);
-  };
-
-  const [selectedColors, setSelectedColors] = useState({
-    color1: '',
-    color2: '',
-    color3: '',
-    color4: '',
-    color5: '',
-  });
-
-  const handleSelectColors = (colorIndex, option) => {
-    console.log(option);
-    setSelectedColors((colors) => ({ ...colors, [colorIndex]: option }));
-    console.log(selectedColors);
+    setSearchData(prevData => ({...prevData, node: option}))
   };
 
   useEffect(() => {
@@ -128,7 +110,7 @@ const GraphMenu = () => {
             id="institute-select"
             label="Instituto"
             options={institutes}
-            value={selectedInstitute}
+            value={searchData.institute}
             onChange={handleSelectInstitute}
             placeholder="Todos"
             allowClear
@@ -141,10 +123,9 @@ const GraphMenu = () => {
             id="institute-select"
             label="Produção"
             options={productions}
-            value={selectedProduction}
+            value={searchData.production}
             onChange={handleSelectProduction}
-            placeholder="Todos"
-            allowClear
+            allowClear={false}
             allowSearch={false}
             allowSort={false}
           />
@@ -154,7 +135,7 @@ const GraphMenu = () => {
             id="institute-select"
             label="Pesquisador"
             options={researchers}
-            value={selectedResearcher}
+            value={searchData.researcher}
             onChange={handleSelectResearcher}
             placeholder="Todos"
             allowClear
@@ -167,7 +148,7 @@ const GraphMenu = () => {
             id="institute-select"
             label="Tipo Vértice"
             options={vertice}
-            value={selectedVertice}
+            value={searchData.node}
             onChange={handleSelectVertice}
             allowClear={false}
             allowSearch={false}
@@ -184,24 +165,9 @@ const GraphMenu = () => {
         <PlotMenu open={isOpen}>
           <PlotMenuColumn>
             Vértice (cor)
-            <ColorSelect
-              value={selectedColors.color1}
-              onChange={(option) => {
-                handleSelectColors('color1', option);
-              }}
-            />
-            <ColorSelect
-              value={selectedColors.color2}
-              onChange={(option) => {
-                handleSelectColors('color2', option);
-              }}
-            />
-            <ColorSelect
-              value={selectedColors.color3}
-              onChange={(option) => {
-                handleSelectColors('color3', option);
-              }}
-            />            
+            <ColorField color={colors.firstColor}/>
+            <ColorField color={colors.secondColor}/>
+            <ColorField color={colors.thirdColor}/>           
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (inicio)

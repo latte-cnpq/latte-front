@@ -39,7 +39,7 @@ export default function GraphMenuSelect({
   };
 
   const handleClearSelection = () => {
-    onChange(null);
+    onChange({});
     handleClose();
   };
 
