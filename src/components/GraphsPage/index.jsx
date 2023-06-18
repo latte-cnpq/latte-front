@@ -26,7 +26,7 @@ const GraphsPage = () => {
   })
 
   const {data, refetch, isFetching} = useQuery('getGraphData', () =>
-    GraphApi.getGraph(searchData.researcher.label || '', searchData.institute.label || '', searchData.production.value || '', searchData.node.value || '')
+    GraphApi.getGraph(searchData.researcher.label || '', searchData.institute.value || '', searchData.production.value || '', searchData.node.value || '')
   )
 
   useEffect(() => {
