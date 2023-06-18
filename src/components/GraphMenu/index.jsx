@@ -110,6 +110,16 @@ const GraphMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const [lowerLimit, setLowerLimit] = useState('');
+  const handleChangeLowerLimit = (value) => {
+    setLowerLimit(value);
+  };
+
+  const [upperLimit, setUpperLimit] = useState('');
+  const handleChangeUpperLimit = (value) => {
+    setUpperLimit(value);
+  };
+
   return (
     <Container>
       <TopMenu>
@@ -191,35 +201,19 @@ const GraphMenu = () => {
               onChange={(option) => {
                 handleSelectColors('color3', option);
               }}
-            />
-            <ColorSelect
-              value={selectedColors.color4}
-              onChange={(option) => {
-                handleSelectColors('color4', option);
-              }}
-            />
-            <ColorSelect
-              value={selectedColors.color5}
-              onChange={(option) => {
-                handleSelectColors('color5', option);
-              }}
-            />
+            />            
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (inicio)
-            <Input type="number" />
-            <Input type="number" />
-            <Input type="number" />
-            <Input type="number" />
-            <Input type="number" />
+            <Input type="number" disabled= {true} value = {1} />
+            <Input type="number" onChange={e=> handleChangeLowerLimit(e.target.value)}/>
+            <Input type="number" onChange={e=> handleChangeUpperLimit(e.target.value)}/>
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (fim)
-            <Input />
-            <Input />
-            <Input />
-            <Input />
-            <Input />
+            <Input value= {lowerLimit ? lowerLimit-1 : ''}  disabled={true} />
+            <Input value= {upperLimit ? upperLimit-1 : ''}  disabled={true}/>
+            <Input value= '&infin;'  disabled={true}/>
           </PlotMenuColumn>
         </PlotMenu>
       </BottomMenu>

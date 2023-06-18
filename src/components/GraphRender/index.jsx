@@ -20,7 +20,7 @@ const GraphRender = () => {
       }
     ]
   };
-  const graphDataTest = {
+  const graphDataTest ={
     "edges": [
       {
         "data": {
@@ -33,29 +33,44 @@ const GraphRender = () => {
     "nodes": [
       {
         "data": {
-          "instituteLabel": "FEMASS",
+          "count": 1,
           "id": "0163b402-ea23-4d2e-b36d-b6a8aac2d128",
           "label": "Leonardo Lima dos Santos"
         }
       },
       {
         "data": {
-          "instituteLabel": "TESTE",
+          "count": 2,
           "id": "8f566c72-9109-4ebe-b890-453366482022",
           "label": "Michael Maia Mincarone"
         }
       }
-    ]
+      ,
+      {
+        "data": {
+          "count": 4,
+          "id": "8f566c72-9109-4ebe-b890-4533664820222",
+          "label": "Teste"
+        }
+      }
+    ],
   }
+
+  const [upperLimit, setUpperLimit] = useState(3);
+  const [lowerLimit, setLowerLimit] = useState(2);
+  const [thirdColor, setThirdColor] = useState("pink");
+  const [secondColor, setSecondColor] = useState("green");
+  const [firstColor, setFirstColor] = useState("orange");
+
   const layout = {
     name: "random",
     fit: true,
     directed: false,
-    padding: 50,
+    padding: 500,
     animate: true,
     animationDuration: 1000,
     avoidOverlap: true,
-    nodeDimensionsIncludeLabels: false
+    nodeDimensionsIncludeLabels: true
   };
 
   const styleSheet = [
@@ -65,7 +80,7 @@ const GraphRender = () => {
         backgroundColor: "#4a56a6",
         width: 30,
         height: 30,
-        label: "data(researcherLabel)",
+        label: "data(label)",
         "overlay-padding": "6px",
         "z-index": "10",
         "text-outline-color": "#4a56a6",
@@ -84,7 +99,7 @@ const GraphRender = () => {
         width: 50,
         height: 50,
         "text-outline-color": "#77828C",
-        "text-outline-width": 8
+        "text-outline-width": 3
       }
     },
     {
@@ -94,29 +109,45 @@ const GraphRender = () => {
       }
     },
     {
+      selector: "node",
+      style: {
+        'background-color'(n){
+          if (n.data("count") >= upperLimit){
+            return thirdColor}
+          else if(n.data("count") >= lowerLimit )
+            return secondColor
+          else return firstColor
+        }
+
+      }
+    },
+    {
       selector: "edge",
       style: {
         width: 3,
         "line-color": "red",
         "target-arrow-shape": "none",
       }
-    },
+    }/* , 
     {
-      selector: "edge[type='first']",
-      style: {
-        width: 3,
-        "line-color": "yellow",
-        "target-arrow-shape": "none",
-      }
-    },
-    {
-      selector: "edge[type='edge2']",
+      selector: "edge[count>= 3]",
       style: {
         width: 3,
         "line-color": "blue",
         "target-arrow-shape": "none",
       }
     },
+    {
+      selector: "edge[count>= 6]",
+      style: {
+        
+        width: 3,
+        "line-color": "yellow",
+        "target-arrow-shape": "none",
+      }
+    }, */
+    
+
   ];
 
   return (
@@ -124,10 +155,11 @@ const GraphRender = () => {
     <CytoscapeComponent
       elements={CytoscapeComponent.normalizeElements(graphDataTest)}
       // pan={{ x: 200, y: 200 }}
+      wheelSensitivity= {0.7}
       style={{ width: '100%', height: '100%', border: "1px solid black" }}
       zoomingEnabled={true}
       maxZoom={1.5}
-      minZoom={0.8}
+      minZoom={0.3}
       autounselectify={false}
       boxSelectionEnabled={true}
       layout={layout}
