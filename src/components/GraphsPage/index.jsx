@@ -17,12 +17,16 @@ const GraphsPage = () => {
     node: {}
   });
 
+  const [thresholds, setThresholds] = useState({
+    lowerLimit: 2,
+    upperLimit: 5
+  })
+
   const {data, refetch} = useQuery('getGraphData', () =>
     GraphApi.getGraph(searchData.researcher.label || '', searchData.institute.label || '', searchData.production.value || '', searchData.node.value || '')
   )
 
   useEffect(() => {
-    console.log(searchData)
     refetch();
   }, [searchData, refetch]);
 
@@ -34,9 +38,9 @@ const GraphsPage = () => {
 
   return (
     <Container>
-    <GraphRender graphData={data} lowerLimit={2} upperLimit={5} colors={colors}/>
-      <MenuContainer style={{backgroundColor: 'RGB(0;0;0;0)'}}>
-        <GraphMenu searchData={searchData} setSearchData={setSearchData} colors={colors}/>
+    <GraphRender graphData={data} lowerLimit={thresholds.lowerLimit} upperLimit={thresholds.upperLimit} colors={colors}/>
+      <MenuContainer>
+        <GraphMenu searchData={searchData} setSearchData={setSearchData} colors={colors} thresholds={thresholds} setThresholds={setThresholds}/>
       </MenuContainer>
     </Container>
   );

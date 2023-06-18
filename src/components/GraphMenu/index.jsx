@@ -18,7 +18,7 @@ import GraphMenuSelect from '../GraphMenuSelect';
 import * as instituteApi from '@/api/institute';
 import * as researcherApi from '@/api/researcher';
 
-const GraphMenu = ({searchData, setSearchData, colors}) => {
+const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [institutes, setInstitutes] = useState([]);
@@ -92,14 +92,12 @@ const GraphMenu = ({searchData, setSearchData, colors}) => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const [lowerLimit, setLowerLimit] = useState('');
   const handleChangeLowerLimit = (value) => {
-    setLowerLimit(value);
+    setThresholds(prevState => ({...prevState, lowerLimit: value}))
   };
 
-  const [upperLimit, setUpperLimit] = useState('');
   const handleChangeUpperLimit = (value) => {
-    setUpperLimit(value);
+    setThresholds(prevState => ({...prevState, upperLimit: value}))
   };
 
   return (
@@ -172,13 +170,13 @@ const GraphMenu = ({searchData, setSearchData, colors}) => {
           <PlotMenuColumn>
             Valor NP (inicio)
             <Input type="number" disabled= {true} value = {1} />
-            <Input type="number" onChange={e=> handleChangeLowerLimit(e.target.value)}/>
-            <Input type="number" onChange={e=> handleChangeUpperLimit(e.target.value)}/>
+            <Input type="number" onChange={e=> handleChangeLowerLimit(e.target.value)} value={thresholds.lowerLimit}/>
+            <Input type="number" onChange={e=> handleChangeUpperLimit(e.target.value)} value={thresholds.upperLimit}/>
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (fim)
-            <Input value= {lowerLimit ? lowerLimit-1 : ''}  disabled={true} />
-            <Input value= {upperLimit ? upperLimit-1 : ''}  disabled={true}/>
+            <Input value={thresholds.lowerLimit ? thresholds.lowerLimit-1 : ''}  disabled={true} />
+            <Input value={thresholds.upperLimit ? thresholds.upperLimit-1 : ''}  disabled={true}/>
             <Input value= '&infin;'  disabled={true}/>
           </PlotMenuColumn>
         </PlotMenu>
