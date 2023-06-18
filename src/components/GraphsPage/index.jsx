@@ -14,7 +14,10 @@ const GraphsPage = () => {
       value: 'BOOK',
       label: 'Livros',
     },
-    node: {}
+    node: {
+      value: 'researcher',
+      label: 'Pesquisador',
+    },
   });
 
   const [thresholds, setThresholds] = useState({

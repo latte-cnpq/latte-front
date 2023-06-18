@@ -23,7 +23,7 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors}) => {
       style: {
         width: 30,
         height: 30,
-        label: "data(researcherLabel)",
+        label: "data(label)",
         "z-index": "10",
         color: "white",
         fontSize: 20,
