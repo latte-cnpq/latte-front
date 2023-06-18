@@ -2,7 +2,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { useTheme } from 'styled-components';
 
 
-const GraphRender = ({graphData, upperLimit, lowerLimit, colors}) => {
+const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => {
 
   const theme = useTheme();
 
@@ -68,7 +68,7 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors}) => {
   return (
     <>
       {
-      graphData && 
+      !isLoading && graphData && 
       <CytoscapeComponent
         elements={CytoscapeComponent.normalizeElements(graphData)}
         wheelSensitivity= {0.7}

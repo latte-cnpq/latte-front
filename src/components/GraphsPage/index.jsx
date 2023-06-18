@@ -25,7 +25,7 @@ const GraphsPage = () => {
     upperLimit: 5
   })
 
-  const {data, refetch} = useQuery('getGraphData', () =>
+  const {data, refetch, isFetching} = useQuery('getGraphData', () =>
     GraphApi.getGraph(searchData.researcher.label || '', searchData.institute.label || '', searchData.production.value || '', searchData.node.value || '')
   )
 
@@ -41,7 +41,7 @@ const GraphsPage = () => {
 
   return (
     <Container>
-    <GraphRender graphData={data} lowerLimit={thresholds.lowerLimit} upperLimit={thresholds.upperLimit} colors={colors}/>
+    <GraphRender graphData={data} lowerLimit={thresholds.lowerLimit} upperLimit={thresholds.upperLimit} colors={colors} isLoading={isFetching}/>
       <MenuContainer>
         <GraphMenu searchData={searchData} setSearchData={setSearchData} colors={colors} thresholds={thresholds} setThresholds={setThresholds}/>
       </MenuContainer>
