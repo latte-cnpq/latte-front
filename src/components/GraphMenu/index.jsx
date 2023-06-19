@@ -27,7 +27,7 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
     const data = await instituteApi.getInstitutes();
     setInstitutes(
       data.map((option) => ({
-        value: option.id,
+        value: option.name,
         label: option.acronym,
       })),
     );
