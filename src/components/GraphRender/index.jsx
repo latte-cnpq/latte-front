@@ -1,18 +1,20 @@
-import CytoscapeComponent from 'react-cytoscapejs';
+import CytoscapeComponent from "react-cytoscapejs";
 import { useTheme } from 'styled-components';
-
+import cytoscape from 'cytoscape';
+import cise from "cytoscape-cise";
 
 const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => {
 
   const theme = useTheme();
-
+  cytoscape.use(cise)
   const layout = {
-    name: "random",
+    name: "cise",//"random"
     fit: true,
     directed: false,
-    padding: 500,
+    padding: 10,
     animate: true,
     animationDuration: 1000,
+    refresh: 50,
     avoidOverlap: true,
     nodeDimensionsIncludeLabels: true
   };
@@ -63,7 +65,6 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => 
       }
     }
   ];
-
   
   return (
     <>
@@ -80,6 +81,7 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => 
         boxSelectionEnabled={true}
         layout={layout}
         stylesheet={styleSheet}
+        
       />
       }
     </>

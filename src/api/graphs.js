@@ -8,7 +8,8 @@ export const getGraph = async (researcherName, instituteName, productionType, no
       `?researcherName=${researcherName}` +
       `&instituteName=${instituteName}` +
       `&productionType=${productionType}` +
-      `&nodeType=${nodeType}`,
+      `&nodeType=${nodeType}` +
+      `&getAll=${true}`
   );
   return data;
 };
