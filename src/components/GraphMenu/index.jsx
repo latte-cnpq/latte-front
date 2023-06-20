@@ -55,6 +55,10 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
 
   const productions = [
     {
+      value: '',
+      label: 'Todos'
+    },
+    {
       value: 'BOOK',
       label: 'Livros',
     },

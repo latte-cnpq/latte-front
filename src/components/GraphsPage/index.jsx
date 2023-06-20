@@ -11,8 +11,8 @@ const GraphsPage = () => {
     researcher: {},
     institute: {},
     production: {
-      value: 'BOOK',
-      label: 'Livros',
+      value: '',
+      label: 'Todos',
     },
     node: {
       value: 'researcher',
