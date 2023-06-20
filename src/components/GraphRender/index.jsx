@@ -40,12 +40,13 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => 
       }
     },
     {
-      selector: "node:selected",
+      selector: "node.hover",
       style: {
         "border-width": "3px",
         "border-color": "#AAD8FF",
         "border-opacity": "0.3",
         "background-color": "#77828C",
+        label: "data(count)",
         width: 30,
         height: 30,
       }
@@ -81,6 +82,12 @@ const GraphRender = ({graphData, upperLimit, lowerLimit, colors, isLoading}) => 
         boxSelectionEnabled={true}
         layout={layout}
         stylesheet={styleSheet}
+        cy={(cy) => {cy.on('mouseover', 'node', function(e) {
+          e.target.addClass('hover');
+          cy.on('mouseout', 'node', function(e) {
+            e.target.removeClass('hover');
+          });
+        }); }}
         
       />
       }
