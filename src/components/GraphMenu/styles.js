@@ -14,6 +14,12 @@ export const Container = styled.div`
   border-radius: 10px;
   gap: 10px;
   padding: 10px;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+
+  :hover {
+    opacity: 1;
+  }
 `;
 
 export const TopMenu = styled.div`
