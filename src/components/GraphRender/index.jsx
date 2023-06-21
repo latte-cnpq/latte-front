@@ -28,12 +28,7 @@ const GraphRender = ({ graphData, upperLimit, lowerLimit, colors, isLoading }) =
         'z-index': '10',
         color: 'white',
         fontSize: 20,
-        'background-color'(n) {
-          if (n.data('count') >= upperLimit) {
-            return colors.thirdColor;
-          } else if (n.data('count') >= lowerLimit) return colors.secondColor;
-          else return colors.firstColor;
-        },
+        'background-color': theme.colors.highContrastText,
       },
     },
     {
@@ -44,7 +39,6 @@ const GraphRender = ({ graphData, upperLimit, lowerLimit, colors, isLoading }) =
         'border-opacity': '0.3',
         'background-color': '#77828C',
         'text-valign': 'bottom',
-        label: 'data(count)',
         width: 30,
         height: 30,
       },
@@ -56,11 +50,32 @@ const GraphRender = ({ graphData, upperLimit, lowerLimit, colors, isLoading }) =
       },
     },
     {
-      selector: 'edge',
+      selector: `edge`,
       style: {
         width: 3,
-        'line-color': theme.colors.bordersAndFocusRing,
         'target-arrow-shape': 'none',
+        'line-color'(n) {
+          if (n.data('count') >= upperLimit) {
+            return colors.thirdColor;
+          } else if (n.data('count') >= lowerLimit) return colors.secondColor;
+          else return colors.firstColor;
+        },
+      },
+    },
+    {
+      selector: `edge.hover`,
+      style: {
+        width: 3,
+        label: 'data(count)',
+        fontSize: '20',
+        color: 'white',
+        'target-arrow-shape': 'none',
+        'line-color'(n) {
+          if (n.data('count') >= upperLimit) {
+            return colors.thirdColor;
+          } else if (n.data('count') >= lowerLimit) return colors.secondColor;
+          else return colors.firstColor;
+        },
       },
     },
   ];
@@ -80,9 +95,9 @@ const GraphRender = ({ graphData, upperLimit, lowerLimit, colors, isLoading }) =
           layout={layout}
           stylesheet={styleSheet}
           cy={(cy) => {
-            cy.on('mouseover', 'node', function (e) {
+            cy.on('mouseover', 'edge', function (e) {
               e.target.addClass('hover');
-              cy.on('mouseout', 'node', function (e) {
+              cy.on('mouseout', 'edge', function (e) {
                 e.target.removeClass('hover');
               });
             });
