@@ -8,15 +8,18 @@ import {
   StyledButton,
   StyledInput,
   DropDownContent,
+  StyledLabel,
+  Label,
 } from './styles';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-export default function Select({
-  id,
+export default function GraphMenuMultiselect({
   label,
   options,
-  placeholder = 'Selecione uma opção',
+  placeholder = 'Selecione',
   value,
   onChange,
   allowClear = false,
@@ -30,20 +33,40 @@ export default function Select({
   const handleOpen = () => {
     setIsOpen((prevState) => !prevState);
   };
-  const handleClose = () => setIsOpen(false);
 
-  const handleSelection = (selectedValue) => {
-    onChange(selectedValue);
-    handleClose();
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleSelection = (selectedOption) => {
+    console.log(selectedOption);
+
+    const currentSelected = [...value];
+
+    const selectedIndex = currentSelected.findIndex(
+      (option) => option.value === selectedOption.value,
+    );
+
+    if (selectedIndex > -1) {
+      currentSelected.splice(selectedIndex, 1); // Remove a opção selecionada se já estiver selecionada
+    } else {
+      currentSelected.push(selectedOption); // Adiciona a opção selecionada se ainda não estiver selecionada
+    }
+
+    onChange(currentSelected);
   };
 
   const handleClearSelection = () => {
-    onChange(null);
     handleClose();
   };
 
-  const handleSearch = (event) => setSearchText(event.target.value);
-  const handleSort = () => setIsAscending(!isAscending);
+  const handleSearch = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleSort = () => {
+    setIsAscending(!isAscending);
+  };
 
   const sortedOptions = useMemo(
     () =>
@@ -65,12 +88,22 @@ export default function Select({
     [allowSearch, sortedOptions, searchText],
   );
 
+  const isOptionSelected = (option) => {
+    if (!value.length) {
+      return false;
+    }
+
+    return value.some((selectedOption) => selectedOption.value === option.value);
+  };
+
   return (
     <Container>
-      {label && <label htmlFor={id}>{label}</label>}
+      <StyledLabel>{label}</StyledLabel>
       <SelectContainer>
         <SelectButton onClick={handleOpen} disabled={!options.length}>
-          {value?.label ?? placeholder}
+          <Label>
+            {value.length > 0 ? value.map((option) => option.label).join(', ') : placeholder}
+          </Label>
           <ExpandMoreIcon fontSize="small" />
         </SelectButton>
         {isOpen && (
@@ -88,16 +121,26 @@ export default function Select({
                 Ordenar {isAscending ? 'A-Z' : 'Z-A'}
               </StyledButton>
             )}
-            {allowClear && value && (
+            {allowClear && value.length > 0 && (
               <DropdownItem key="clear" onClick={handleClearSelection}>
                 Todos
               </DropdownItem>
             )}
             <DropDownContent>
               {filteredOptions.map((option) => {
+                const isSelected = isOptionSelected(option);
                 return (
-                  <DropdownItem key={option.value} onClick={() => handleSelection(option)}>
+                  <DropdownItem
+                    key={option.value}
+                    onClick={() => handleSelection(option)}
+                    selected={isSelected}
+                  >
                     {option.label}
+                    {isSelected ? (
+                      <CheckBoxIcon fontSize="small" />
+                    ) : (
+                      <CheckBoxOutlineBlankIcon fontSize="small" />
+                    )}
                   </DropdownItem>
                 );
               })}

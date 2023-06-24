@@ -95,9 +95,9 @@ export default function GraphMenuSelect({
               </DropdownItem>
             )}
             <DropDownContent>
-              {filteredOptions.map((option) => {
+              {filteredOptions.map((option, index) => {
                 return (
-                  <DropdownItem key={option.value} onClick={() => handleSelection(option)}>
+                  <DropdownItem key={index} onClick={() => handleSelection(option)}>
                     {option.label}
                   </DropdownItem>
                 );

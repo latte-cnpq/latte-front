@@ -14,13 +14,18 @@ export const getResearcher = async (id) => {
   return data;
 };
 
+export const getResearchersByInstitutes = async (acronyms) => {
+  const { data } = await axios.get(`${ENDPOINT}/findByInstitutes?institute_acronyms=${acronyms}`);
+
+  return data;
+};
+
 export const searchResearcher = async (id) => {
   const { data } = await axios.get(`${ENDPOINT}/cache/${id}`);
   return data;
 };
 
 export const deleteResearcher = async (id) => {
-  console.log(id);
   const response = await axios.delete(`${ENDPOINT}/${id}`);
   return response;
 };

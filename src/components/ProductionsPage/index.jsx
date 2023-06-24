@@ -20,10 +20,6 @@ const ProductionsPage = ({ year, researcher, institute }) => {
     researcher: researcher || '',
   });
 
-  useEffect(() => {
-    console.log(year);
-  }, [year]);
-
   const { data, isFetching, refetch } = useQuery('getProductions', () => {
     return productionApi.advancedSearch(
       searchData.title,

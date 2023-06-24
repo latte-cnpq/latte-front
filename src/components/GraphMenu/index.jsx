@@ -17,8 +17,9 @@ import GraphMenuSelect from '../GraphMenuSelect';
 
 import * as instituteApi from '@/api/institute';
 import * as researcherApi from '@/api/researcher';
+import GraphMenuMultiselect from '../GraphMenuMultiselect';
 
-const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds}) => {
+const GraphMenu = ({ searchData, setSearchData, colors, thresholds, setThresholds }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [institutes, setInstitutes] = useState([]);
@@ -33,14 +34,13 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
     );
   };
 
-  const handleSelectInstitute = (option) => {
-    setSearchData(prevData => ({...prevData, institute: option}))
-  };
-
   const [researchers, setResearchers] = useState([]);
 
   const fetchResearchers = async () => {
-    const data = await researcherApi.getResearchers();
+    const data = await researcherApi.getResearchersByInstitutes(
+      searchData.institutes.map(({ label }) => label),
+    );
+
     setResearchers(
       data.map((option) => ({
         value: option.id,
@@ -50,13 +50,13 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
   };
 
   const handleSelectResearcher = (option) => {
-    setSearchData(prevData => ({...prevData, researcher: option}))
+    setSearchData((prevData) => ({ ...prevData, researchers: option }));
   };
 
   const productions = [
     {
       value: '',
-      label: 'Todos'
+      label: 'Todos',
     },
     {
       value: 'BOOK',
@@ -69,7 +69,7 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
   ];
 
   const handleSelectProduction = (option) => {
-    setSearchData(prevData => ({...prevData, production: option}))
+    setSearchData((prevData) => ({ ...prevData, production: option }));
   };
 
   const vertice = [
@@ -83,39 +83,43 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
     },
   ];
 
+  const handleSelectInstitute = (option) => {
+    setSearchData((prevData) => ({ ...prevData, institutes: option }));
+  };
+
   const handleSelectVertice = (option) => {
-    setSearchData(prevData => ({...prevData, node: option}))
+    setSearchData((prevData) => ({ ...prevData, node: option }));
   };
 
   useEffect(() => {
     fetchInstitutes();
     fetchResearchers();
-  }, []);
+  }, [searchData]);
 
   const handleIsOpen = () => {
     setIsOpen((prevState) => !prevState);
   };
 
   const handleChangeLowerLimit = (value) => {
-    setThresholds(prevState => ({...prevState, lowerLimit: value}))
+    setThresholds((prevState) => ({ ...prevState, lowerLimit: value }));
   };
 
   const handleChangeUpperLimit = (value) => {
-    setThresholds(prevState => ({...prevState, upperLimit: value}))
+    setThresholds((prevState) => ({ ...prevState, upperLimit: value }));
   };
 
   return (
     <Container>
       <TopMenu>
         <InputContainer>
-          <GraphMenuSelect
+          <GraphMenuMultiselect
             id="institute-select"
             label="Instituto"
             options={institutes}
-            value={searchData.institute}
+            value={searchData.institutes}
             onChange={handleSelectInstitute}
             placeholder="Todos"
-            allowClear
+            allowClear={false}
             allowSearch
             allowSort
           />
@@ -133,14 +137,14 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
           />
         </InputContainer>
         <InputContainer>
-          <GraphMenuSelect
+          <GraphMenuMultiselect
             id="institute-select"
             label="Pesquisador"
             options={researchers}
-            value={searchData.researcher}
+            value={searchData.researchers}
             onChange={handleSelectResearcher}
             placeholder="Todos"
-            allowClear
+            allowClear={false}
             allowSearch
             allowSort
           />
@@ -167,21 +171,29 @@ const GraphMenu = ({searchData, setSearchData, colors, thresholds, setThresholds
         <PlotMenu open={isOpen}>
           <PlotMenuColumn>
             Vértice (cor)
-            <ColorField color={colors.firstColor}/>
-            <ColorField color={colors.secondColor}/>
-            <ColorField color={colors.thirdColor}/>           
+            <ColorField color={colors.firstColor} />
+            <ColorField color={colors.secondColor} />
+            <ColorField color={colors.thirdColor} />
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (inicio)
-            <Input type="number" disabled= {true} value = {1} />
-            <Input type="number" onChange={e=> handleChangeLowerLimit(e.target.value)} value={thresholds.lowerLimit}/>
-            <Input type="number" onChange={e=> handleChangeUpperLimit(e.target.value)} value={thresholds.upperLimit}/>
+            <Input type="number" disabled={true} value={1} />
+            <Input
+              type="number"
+              onChange={(e) => handleChangeLowerLimit(e.target.value)}
+              value={thresholds.lowerLimit}
+            />
+            <Input
+              type="number"
+              onChange={(e) => handleChangeUpperLimit(e.target.value)}
+              value={thresholds.upperLimit}
+            />
           </PlotMenuColumn>
           <PlotMenuColumn>
             Valor NP (fim)
-            <Input value={thresholds.lowerLimit ? thresholds.lowerLimit-1 : ''}  disabled={true} />
-            <Input value={thresholds.upperLimit ? thresholds.upperLimit-1 : ''}  disabled={true}/>
-            <Input value= '&infin;'  disabled={true}/>
+            <Input value={thresholds.lowerLimit ? thresholds.lowerLimit - 1 : ''} disabled={true} />
+            <Input value={thresholds.upperLimit ? thresholds.upperLimit - 1 : ''} disabled={true} />
+            <Input value="&infin;" disabled={true} />
           </PlotMenuColumn>
         </PlotMenu>
       </BottomMenu>
