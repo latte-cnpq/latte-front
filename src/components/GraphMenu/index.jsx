@@ -84,7 +84,7 @@ const GraphMenu = ({ searchData, setSearchData, colors, thresholds, setThreshold
   ];
 
   const handleSelectInstitute = (option) => {
-    setSearchData((prevData) => ({ ...prevData, institutes: option }));
+    setSearchData((prevData) => ({ ...prevData, institutes: option, researchers: [] }));
   };
 
   const handleSelectVertice = (option) => {
